@@ -56,6 +56,25 @@
             width: 100%;
             bottom: 0;
         }
+
+        /* Large link for סמים מא' עד ת' */
+        .large-link {
+            display: block;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            text-align: center;
+            font-size: 20px;
+            color: #0073e6;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #0073e6;
+        }
+
+        .large-link:hover {
+            background-color: #0073e6;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -77,16 +96,32 @@
 
     <!-- Main content section -->
     <main>
-        <h2>ברוך הבא למרכז הידע להתמכרויות</h2>
-        <p>כאן תמצא מידע עדכני וכלים להתמודדות עם התמכרויות.</p>
-        
-        <!-- Add more content modules here in the future -->
+        <!-- בית Section -->
+        <section id="home-section">
+            <h2>בית</h2>
+            <p>Welcome to the homepage of the addiction knowledge center.</p>
+
+            <!-- Link to סמים מא' עד ת' section -->
+            <a href="#drugs-section" class="large-link">סמים מא' עד ת'</a>
+        </section>
+
+        <!-- More sections can go here in the future -->
+
+        <!-- סמים מא' עד ת' Section -->
+        <section id="drugs-section">
+            <h2>סמים מא' עד ת'</h2>
+            <ul id="drug-list"></ul>
+        </section>
+
     </main>
 
     <!-- Footer section -->
     <footer>
         <p>© 2024 מרכז הידע להתמכרויות - כל הזכויות שמורות</p>
     </footer>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="scripts/drugs.js"></script>
 
 </body>
 </html>
