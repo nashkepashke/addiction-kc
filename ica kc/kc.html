@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מרכז הידע - המרכז הישראלי להתמכרויות</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            text-align: right;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .knowledge-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .knowledge-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .knowledge-card h2 {
+            color: #34495e;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .knowledge-card p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .knowledge-card a {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+
+        .knowledge-card a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>מרכז הידע</h1>
+        
+        <div class="knowledge-grid">
+            <div class="knowledge-card">
+                <h2>סמים א-ת</h2>
+                <p>מידע מקיף על סוגי סמים שונים</p>
+                <a href="#drugs-az">לצפייה</a>
+            </div>
+            
+            <div class="knowledge-card">
+                <h2>מזעור נזקים</h2>
+                <p>מידע וכלים למזעור נזקים הקשורים לשימוש בחומרים </p>
+                <a href="#harm-reduction">לצפייה</a>
+            </div>
+            
+            <div class="knowledge-card">
+                <h2>מידע על התמכרויות</h2>
+                <p>מענה לשאלות שכיחות אודות התמכרויות</p>
+                <a href="#addiction-info">לצפייה</a>
+            </div>
+            
+            <div class="knowledge-card">
+                <h2>מידע על טיפול</h2>
+                <p>סקירת אפשרויות טיפול להתמכרויות</p>
+                <a href="#treatment-info">לצפייה</a>
+            </div>
+            
+            <div class="knowledge-card">
+                <h2>נתונים מישראל</h2>
+                <p>סטטיסטיקות ומחקרים על שימוש בסמים והתמכרויות בישראל</p>
+                <a href="#israel-data">לצפייה</a>
+            </div>
+            
+            <div class="knowledge-card">
+                <h2>מרכז מדיה</h2>
+                <p>סרטונים, פודקאסטים וחומרי הסברה בנושא התמכרויות</p>
+                <a href="#media-center">לצפייה</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

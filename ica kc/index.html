@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המרכז הישראלי להתמכרויות - מרכז הידע</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            text-align: right;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .section-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-card h2 {
+            color: #34495e;
+            margin-bottom: 15px;
+        }
+
+        .section-card p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .section-card a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-card a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>מרכז הידע - המרכז הישראלי להתמכרויות</h1>
+        
+        <div class="sections-grid">
+            <div class="section-card">
+                <h2>מרכז הידע</h2>
+                <p>גישה למאגר מידע מקיף בנושא התמכרויות, מחקרים, מאמרים ומשאבים מקצועיים</p>
+                <a href="#knowledge-center">למעבר למרכז הידע</a>
+            </div>
+            
+            <div class="section-card">
+                <h2>כלים</h2>
+                <p>כלים מעשיים, שאלונים, ומשאבים לאנשי מקצוע ולמתמודדים</p>
+                <a href="#tools">למעבר לכלים</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
