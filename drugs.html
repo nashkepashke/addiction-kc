@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drugs A-Z</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        #search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        #suggestions {
+            border: 1px solid #ccc;
+            background: #fff;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            position: absolute;
+            width: calc(100% - 22px);
+        }
+        #suggestions div {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        #suggestions div:hover {
+            background: #eee;
+        }
+        .letters {
+            margin: 20px 0;
+        }
+        .letters span {
+            display: inline-block;
+            padding: 5px 8px;
+            margin: 2px;
+            background: #3498db;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .letters span:hover { background:#2980b9; }
+        .category-list, .popular-list, .results {
+            margin-top: 20px;
+        }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <input type="text" id="search-box" placeholder="Search substances...">
+    <div id="suggestions"></div>
+
+    <div class="letters" id="letter-links"></div>
+
+    <h2>Categories</h2>
+    <div class="category-list">
+        <span data-category="stimulant">Stimulants</span>
+        <span data-category="psychedelic">Psychedelics</span>
+        <span data-category="depressant">Depressants</span>
+        <span data-category="opioid">Opioids</span>
+        <span data-category="dissociative">Dissociatives</span>
+    </div>
+
+    <h2>Popular Substances</h2>
+    <ul class="popular-list" id="popular-list"></ul>
+
+    <h2>Results</h2>
+    <ul class="results" id="results"></ul>
+
+<script>
+const searchBox = document.getElementById('search-box');
+const suggestions = document.getElementById('suggestions');
+const resultsList = document.getElementById('results');
+
+function fetchSubstances(query, callback) {
+    const body = JSON.stringify({query:`{substances(query:"${query}", limit:20){name}}`});
+    fetch('https://psychonautwiki.org/api/graphql', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body
+    })
+    .then(r=>r.json())
+    .then(d=>callback(d.data.substances))
+    .catch(()=>callback([]));
+}
+
+searchBox.addEventListener('input', e=>{
+    const q = e.target.value.trim();
+    if(!q){ suggestions.style.display='none'; return; }
+    fetchSubstances(q, subs=>{
+        suggestions.innerHTML = '';
+        subs.forEach(s=>{
+            const div=document.createElement('div');
+            div.textContent=s.name;
+            div.onclick=()=>location.href=`drug.html?name=${encodeURIComponent(s.name)}`;
+            suggestions.appendChild(div);
+        });
+        suggestions.style.display = subs.length ? 'block':'none';
+    });
+});
+
+document.addEventListener('click', ()=>{ suggestions.style.display='none'; });
+
+function createLetterLinks(){
+    const container=document.getElementById('letter-links');
+    const letters='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    letters.forEach(l=>{
+        const span=document.createElement('span');
+        span.textContent=l;
+        span.onclick=()=>{
+            fetchSubstances(l, displayResults);
+        };
+        container.appendChild(span);
+    });
+}
+createLetterLinks();
+
+function displayResults(subs){
+    resultsList.innerHTML='';
+    subs.forEach(s=>{
+        const li=document.createElement('li');
+        const a=document.createElement('a');
+        a.textContent=s.name;
+        a.href=`drug.html?name=${encodeURIComponent(s.name)}`;
+        li.appendChild(a);
+        resultsList.appendChild(li);
+    });
+}
+
+function setupCategories(){
+    document.querySelectorAll('.category-list span').forEach(span=>{
+        span.onclick=()=>{
+            const cat=span.getAttribute('data-category');
+            const body = JSON.stringify({query:`{substances(psychoactiveClass:"${cat}", limit:50){name}}`});
+            fetch('https://psychonautwiki.org/api/graphql',{
+                method:'POST',headers:{'Content-Type':'application/json'},body
+            })
+            .then(r=>r.json())
+            .then(d=>displayResults(d.data.substances));
+        };
+    });
+}
+setupCategories();
+
+function loadPopular(){
+    const popular=['LSD','MDMA','Cocaine','Heroin','Cannabis'];
+    const list=document.getElementById('popular-list');
+    popular.forEach(name=>{
+        const li=document.createElement('li');
+        const a=document.createElement('a');
+        a.href=`drug.html?name=${encodeURIComponent(name)}`;
+        a.textContent=name;
+        li.appendChild(a);
+        list.appendChild(li);
+    });
+}
+loadPopular();
+</script>
+</body>
+</html>

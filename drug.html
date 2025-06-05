@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Substance Details</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin:20px; }
+        #charts { display:flex; flex-wrap:wrap; gap:40px; }
+        canvas { background:#f9f9f9; border:1px solid #ccc; padding:10px; }
+    </style>
+</head>
+<body>
+    <h1 id="title"></h1>
+    <p id="classes"></p>
+    <div id="charts"></div>
+
+<script>
+function getQueryParam(name){
+    return new URLSearchParams(window.location.search).get(name);
+}
+const substanceName = getQueryParam('name');
+if(!substanceName){ document.getElementById('title').textContent='No substance'; }
+else {
+    document.getElementById('title').textContent = substanceName;
+    const query=`{substances(query:"${substanceName}", limit:1){name class{chemical psychoactive} roas{name dose{units light{min max} common{min max} strong{min max}} duration{onset{min max units} peak{min max units} offset{min max units} total{min max units}}}}`;
+    fetch('https://psychonautwiki.org/api/graphql', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({query})
+    })
+    .then(r=>r.json())
+    .then(data=>{
+        const s=data.data.substances[0];
+        if(!s) return;
+        document.getElementById('classes').textContent=`Chemical: ${s.class.chemical.join(', ')} | Psychoactive: ${s.class.psychoactive.join(', ')}`;
+        buildCharts(s.roas);
+    });
+}
+
+function buildCharts(roas){
+    const container=document.getElementById('charts');
+    roas.forEach(r=>{
+        const div=document.createElement('div');
+        const doseCanvas=document.createElement('canvas');
+        const durCanvas=document.createElement('canvas');
+        div.appendChild(document.createTextNode(r.name));
+        div.appendChild(doseCanvas);
+        div.appendChild(durCanvas);
+        container.appendChild(div);
+        // dose chart
+        new Chart(doseCanvas.getContext('2d'),{
+            type:'bar',
+            data:{
+                labels:['Light','Common','Strong'],
+                datasets:[{
+                    label:`Dose (${r.dose.units})`,
+                    data:[r.dose.light.max,r.dose.common.max,r.dose.strong.max],
+                    backgroundColor:['#8e44ad','#3498db','#e74c3c']
+                }]
+            },
+            options:{scales:{y:{beginAtZero:true}}}
+        });
+        // duration chart
+        new Chart(durCanvas.getContext('2d'),{
+            type:'line',
+            data:{
+                labels:['Onset','Peak','Offset','Total'],
+                datasets:[{
+                    label:`Duration (${r.duration.onset.units})`,
+                    data:[r.duration.onset.max,r.duration.peak.max,r.duration.offset.max,r.duration.total.max],
+                    fill:false,
+                    borderColor:'#2ecc71'
+                }]
+            },
+            options:{scales:{y:{beginAtZero:true}}}
+        });
+    });
+}
+</script>
+</body>
+</html>
